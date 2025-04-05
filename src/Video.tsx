@@ -69,6 +69,7 @@ const VideoPlayer = ({ source, onBack }: VideoPlayerProps) => {
   // 视频加载完成时获取音轨信息
   const onVideoLoad = (data: OnLoadData) => {
     if (data.audioTracks && data.audioTracks.length > 0) {
+      console.log('音轨信息:', data.audioTracks);
       setAudioTracks(data.audioTracks);
       // 默认选中第一个音轨
       setAudioTrackIndex(0);
@@ -147,7 +148,7 @@ const VideoPlayer = ({ source, onBack }: VideoPlayerProps) => {
       style={styles.trackItem}
     >
       <Text style={styles.trackText}>
-        {item.title ? item.title : `音轨 ${index + 1}`}{' '}
+        {item.language ? item.language : `音轨 ${index + 1}`}{' '}
         {audioTrackIndex === index ? '(当前)' : ''}
       </Text>
     </Pressable>
@@ -158,7 +159,7 @@ const VideoPlayer = ({ source, onBack }: VideoPlayerProps) => {
       <View style={styles.container}>
         {/* 返回按钮 */}
         <TouchableOpacity
-          style={[styles.toggleButton, { left: 0, zIndex: 999 }]}
+          style={[styles.toggleButton, { left: 0, zIndex: 999, width: 80 }]}
           onPress={onBack}
         >
           <Text style={styles.toggleButtonText}>返回</Text>
