@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, Text, Modal, TextInput, StyleSheet, Image } from 'react-native';
+import { View, Button, Text, Modal, TextInput, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const { width: deviceWidth } = Dimensions.get('window');
 
 const Settings = () => {
     const [currentUrl, setCurrentUrl] = useState('');
@@ -24,49 +26,54 @@ const Settings = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>当前URL: {currentUrl}</Text>
-            <Button title="修改URL" onPress={() => setModalVisible(true)} />
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+            <View style={styles.container}>
+                <Text style={styles.title}>当前URL: {currentUrl}</Text>
+                <Button title="修改URL" onPress={() => setModalVisible(true)} />
 
-            <Modal visible={modalVisible} transparent animationType="slide">
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>请输入URL</Text>
-                        <TextInput
-                            style={styles.modalInput}
-                            placeholder="请输入URL"
-                            value={inputUrl}
-                            onChangeText={setInputUrl}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                        <Button title="保存" onPress={handleSave} />
+                <Modal visible={modalVisible} transparent animationType="slide">
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>请输入URL</Text>
+                            <TextInput
+                                style={styles.modalInput}
+                                placeholder="请输入URL"
+                                value={inputUrl}
+                                onChangeText={setInputUrl}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+                            <Button title="保存" onPress={handleSave} />
+                        </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
 
-            <View style={styles.donationContainer}>
-                <Text style={styles.donationText}>感谢使用,有使用问题可以在GitHub上提issue,地址：,欢迎打赏</Text>
-                <Image
-                    style={styles.image}
-                    source={require('./assets/zfb.jpg')}
-                    resizeMode="contain"
-                />
-                <Image
-                    style={styles.image}
-                    source={require('./assets/wx.png')}
-                    resizeMode="contain"
-                />
+                <View style={styles.donationContainer}>
+                    <Text style={styles.donationText}>感谢使用,有使用问题可以在GitHub上提issue,地址：https://github.com/yuebaiqinghui/mp4Player</Text>
+                    <Text style={styles.donationText}>如果觉得好用,可以考虑捐赠</Text>
+                    <Image
+                        style={styles.image}
+                        source={require('./assets/zfb.jpg')}
+                        resizeMode="contain"
+                    />
+                    <Image
+                        style={styles.image}
+                        source={require('./assets/wx.png')}
+                        resizeMode="contain"
+                    />
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: '#fff',
+    },
+    scrollContent: {
+        padding: 20,
     },
     title: {
         fontSize: 16,
@@ -101,12 +108,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: 400,
-        height: 400,
+        width: deviceWidth * 0.8,
+        height: deviceWidth * 0.8,
+        marginBottom: 20,
     },
     donationText: {
         marginTop: 10,
         fontSize: 16,
+        textAlign: 'center',
     },
 });
 
